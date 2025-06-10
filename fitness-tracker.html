@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitness Tracker - Health Management System</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/avatar.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center">
+                    <i class="fas fa-heartbeat text-red-500 text-2xl mr-2"></i>
+                    <span class="text-xl font-semibold text-gray-800">HealthCare Pro</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="dashboard.html" class="text-gray-600 hover:text-gray-900">Dashboard</a>
+                    <a href="medical-history.html" class="text-gray-600 hover:text-gray-900">Medical History</a>
+                    <a href="appointments.html" class="text-gray-600 hover:text-gray-900">Appointments</a>
+                    <a href="fitness-tracker.html" class="text-blue-500 font-semibold">Fitness Tracker</a>
+                    <div class="relative" x-data="{ open: false }">
+                        <button @click="open = !open" class="flex items-center space-x-2">
+                            <div class="avatar-container">
+                                <img src="https://raw.githubusercontent.com/Ashwinvalento/cartoon-avatar/master/lib/images/female/68.png" alt="Profile" class="w-10 h-10 rounded-full">
+                            </div>
+                            <span class="text-gray-700 user-name">Priya Sharma</span>
+                            <i class="fas fa-chevron-down text-gray-500 text-sm ml-2"></i>
+                        </button>
+                        <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-10">
+                            <a href="profile.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                <i class="fas fa-user mr-2"></i>My Profile
+                            </a>
+                            <hr class="my-1 border-gray-200">
+                            <a href="#" onclick="handleLogout()" class="block px-4 py-2 text-red-600 hover:bg-gray-100">
+                                <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Fitness Tracker Content -->
+    <div class="container mx-auto px-4 py-8">
+        <!-- Today's Overview -->
+        <div class="bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg shadow-lg p-6 mb-8 text-white">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="text-center">
+                    <div class="text-4xl font-bold mb-2">8,547</div>
+                    <div class="text-blue-100">Steps Today</div>
+                    <div class="text-sm text-blue-200">Goal: 10,000</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl font-bold mb-2">3.2</div>
+                    <div class="text-blue-100">Kilometers</div>
+                    <div class="text-sm text-blue-200">Goal: 5 km</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl font-bold mb-2">284</div>
+                    <div class="text-blue-100">Calories Burned</div>
+                    <div class="text-sm text-blue-200">Goal: 500 cal</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl font-bold mb-2">45</div>
+                    <div class="text-blue-100">Active Minutes</div>
+                    <div class="text-sm text-blue-200">Goal: 60 min</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Steps Chart -->
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-2xl font-semibold mb-6">Weekly Steps Overview</h2>
+                <canvas id="stepsChart" width="400" height="300"></canvas>
+            </div>
+
+            <!-- Activity Log -->
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-semibold">Activity Log</h2>
+                    <button onclick="showAddActivityModal()" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition duration-300">
+                        <i class="fas fa-plus mr-2"></i>Add Activity
+                    </button>
+                </div>
+                <div class="space-y-4">
+                    <!-- Activity Item -->
+                    <div class="border rounded-lg p-4 hover:bg-gray-50 transition duration-300">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="font-semibold">Morning Walk</h3>
+                                <p class="text-sm text-gray-500">Duration: 30 minutes</p>
+                            </div>
+                            <div class="text-right">
+                                <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">
+                                    4,523 steps
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Activity Item -->
+                    <div class="border rounded-lg p-4 hover:bg-gray-50 transition duration-300">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="font-semibold">Evening Jog</h3>
+                                <p class="text-sm text-gray-500">Duration: 45 minutes</p>
+                            </div>
+                            <div class="text-right">
+                                <span class="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">
+                                    6,789 steps
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Goals Section -->
+        <div class="mt-8 bg-white rounded-lg shadow-lg p-6">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-semibold">Fitness Goals</h2>
+                <button onclick="showEditGoalsModal()" class="text-blue-500 hover:text-blue-700">
+                    <i class="fas fa-edit"></i> Edit Goals
+                </button>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="bg-gray-50 rounded-lg p-4">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-gray-600">Daily Steps</span>
+                        <span class="text-blue-500 font-semibold">85%</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="bg-blue-500 rounded-full h-2" style="width: 85%"></div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-4">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-gray-600">Distance</span>
+                        <span class="text-green-500 font-semibold">64%</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="bg-green-500 rounded-full h-2" style="width: 64%"></div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-4">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-gray-600">Calories</span>
+                        <span class="text-yellow-500 font-semibold">57%</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="bg-yellow-500 rounded-full h-2" style="width: 57%"></div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-4">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-gray-600">Active Time</span>
+                        <span class="text-purple-500 font-semibold">75%</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="bg-purple-500 rounded-full h-2" style="width: 75%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Activity Modal -->
+    <div id="activityModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg shadow-xl p-8 max-w-md w-full mx-4">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold">Add Activity</h2>
+                    <button onclick="hideActivityModal()" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <form class="space-y-6">
+                    <div>
+                        <label class="block text-gray-700 mb-2">Activity Type</label>
+                        <select class="form-input-custom" required>
+                            <option value="">Select Activity</option>
+                            <option value="walking">Walking</option>
+                            <option value="running">Running</option>
+                            <option value="cycling">Cycling</option>
+                            <option value="swimming">Swimming</option>
+                        </select>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-gray-700 mb-2">Duration (minutes)</label>
+                            <input type="number" class="form-input-custom" required>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 mb-2">Steps (if applicable)</label>
+                            <input type="number" class="form-input-custom">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-2">Notes</label>
+                        <textarea class="form-input-custom" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="w-full btn-primary-custom">
+                        Add Activity
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    <!-- Custom JS -->
+    <script src="js/main.js"></script>
+
+    <script>
+        // Initialize Steps Chart
+        const ctx = document.getElementById('stepsChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                datasets: [{
+                    label: 'Steps',
+                    data: [9234, 8567, 10123, 7890, 9456, 8234, 8547],
+                    borderColor: 'rgb(59, 130, 246)',
+                    tension: 0.1,
+                    fill: true,
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)'
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        function showAddActivityModal() {
+            document.getElementById('activityModal').classList.remove('hidden');
+        }
+
+        function hideActivityModal() {
+            document.getElementById('activityModal').classList.add('hidden');
+        }
+    </script>
+
+    <!-- Add Alpine.js for dropdown functionality -->
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <!-- Add profile.js before closing body tag -->
+    <script src="js/profile.js"></script>
+</body>
+</html> 

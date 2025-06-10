@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - Health Management System</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/avatar.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center">
+                    <i class="fas fa-heartbeat text-red-500 text-2xl mr-2"></i>
+                    <span class="text-xl font-semibold text-gray-800">HealthCare Pro</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="dashboard.html" class="text-gray-600 hover:text-gray-900">Dashboard</a>
+                    <a href="medical-history.html" class="text-gray-600 hover:text-gray-900">Medical History</a>
+                    <a href="appointments.html" class="text-gray-600 hover:text-gray-900">Appointments</a>
+                    <a href="fitness-tracker.html" class="text-gray-600 hover:text-gray-900">Fitness Tracker</a>
+                    <div class="relative" x-data="{ open: false }">
+                        <button @click="open = !open" class="flex items-center space-x-2">
+                            <div class="avatar-container">
+                                <img src="https://raw.githubusercontent.com/Ashwinvalento/cartoon-avatar/master/lib/images/female/68.png" alt="Profile" class="w-10 h-10 rounded-full">
+                            </div>
+                            <span class="text-gray-700 user-name">Priya Sharma</span>
+                            <i class="fas fa-chevron-down text-gray-500 text-sm ml-2"></i>
+                        </button>
+                        <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-10">
+                            <a href="profile.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                <i class="fas fa-user mr-2"></i>My Profile
+                            </a>
+                            <hr class="my-1 border-gray-200">
+                            <a href="#" onclick="handleLogout()" class="block px-4 py-2 text-red-600 hover:bg-gray-100">
+                                <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Profile Content -->
+    <div class="container mx-auto px-4 py-8">
+        <div class="max-w-4xl mx-auto">
+            <!-- Profile Header -->
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+                <div class="flex items-center">
+                    <div class="avatar-container w-24 h-24">
+                        <img src="https://raw.githubusercontent.com/Ashwinvalento/cartoon-avatar/master/lib/images/female/68.png" alt="Profile" class="w-24 h-24 rounded-full">
+                    </div>
+                    <div class="ml-6">
+                        <h1 class="text-2xl font-bold text-gray-800 user-name">Priya Sharma</h1>
+                        <p class="text-gray-600">Patient ID: #12345</p>
+                        <button class="mt-2 text-blue-500 hover:text-blue-700">
+                            <i class="fas fa-camera mr-2"></i>Change Photo
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Information -->
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-semibold">Personal Information</h2>
+                    <button class="text-blue-500 hover:text-blue-700">
+                        <i class="fas fa-edit mr-2"></i>Edit
+                    </button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-gray-700 mb-2">Full Name</label>
+                        <input type="text" class="form-input-custom" value="Alka Singh" disabled>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-2">Date of Birth</label>
+                        <input type="date" class="form-input-custom" value="2000-02-11" disabled>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-2">Email</label>
+                        <input type="email" class="form-input-custom" value="alka.singh@email.com" disabled>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-2">Phone</label>
+                        <input type="tel" class="form-input-custom" value="+91 98765 43210" disabled>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-2">Blood Type</label>
+                        <input type="text" class="form-input-custom" value="O+" disabled>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-2">Emergency Contact</label>
+                        <input type="text" class="form-input-custom" value="Abhimanyu Singh (Father)" disabled>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Health Information -->
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-semibold">Health Information</h2>
+                    <button class="text-blue-500 hover:text-blue-700">
+                        <i class="fas fa-edit mr-2"></i>Edit
+                    </button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-gray-700 mb-2">Height</label>
+                        <input type="text" class="form-input-custom" value="165 cm" disabled>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-2">Weight</label>
+                        <input type="text" class="form-input-custom" value="55 kg" disabled>
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-gray-700 mb-2">Allergies</label>
+                        <textarea class="form-input-custom" rows="2" disabled>Peanuts (Severe), Dust (Mild)</textarea>
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-gray-700 mb-2">Current Medications</label>
+                        <textarea class="form-input-custom" rows="2" disabled>Vitamin D supplements</textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Account Settings -->
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-semibold">Account Settings</h2>
+                </div>
+                <div class="space-y-4">
+                    <button class="w-full text-left px-4 py-2 rounded-lg hover:bg-gray-50 transition duration-300">
+                        <i class="fas fa-lock text-gray-500 mr-2"></i>Change Password
+                    </button>
+                    <button class="w-full text-left px-4 py-2 rounded-lg hover:bg-gray-50 transition duration-300">
+                        <i class="fas fa-bell text-gray-500 mr-2"></i>Notification Settings
+                    </button>
+                    <button class="w-full text-left px-4 py-2 rounded-lg hover:bg-gray-50 transition duration-300">
+                        <i class="fas fa-shield-alt text-gray-500 mr-2"></i>Privacy Settings
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    <!-- Alpine.js -->
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- Custom JS -->
+    <script src="js/main.js"></script>
+    <script src="js/profile.js"></script>
+</body>
+</html> 
